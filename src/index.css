@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+==========================================================================
+【AI HANDOVER NOTE】
+1. DESIGN PHILOSOPHY:
+   - Apple Keynote-inspired minimalism: 순백(pure white)과 딥블랙(deep black)의 극명한 대비로 프리미엄 감성 구현
+   - Neo-minimalism with breathing space: 충분한 여백(generous whitespace)과 정제된 레이아웃으로 집중력 극대화
+   - Single accent philosophy: Apple Blue(#0071E3) 단일 포인트 컬러로 시각적 일관성 유지
+   - Physicality through subtlety: 미세한 그림자와 부드러운 트랜지션으로 깊이감 표현
+   - 이 스타일은 AI 에이전트 개발이라는 전문적 작업에 필요한 명료함과 집중력을 제공하며, macOS Notes와 Notion의 장점을 결합한 프리미엄 경험을 제공합니다.
+
+2. TYPOGRAPHY:
+   - Sans: Inter는 SF Pro의 대안으로 선택. 뛰어난 가독성과 한글 호환성, 다양한 weight로 정보 위계 구축에 최적
+   - Apple SD Gothic Neo와 Noto Sans KR을 fallback으로 포함하여 한글 텍스트의 완벽한 렌더링 보장
+   - Mono: JetBrains Mono는 코드 스니펫과 기술 문서에 사용. AI 아키텍처 메모에서 코드 가독성 중요
+
+3. COLOR SYSTEM:
+   - 브랜드 주색: Apple Blue (H=211°) - 신뢰감, 기술감, 전문성을 동시에 전달하는 색상
+   - --brand는 --primary, --accent, --ring에 모두 매핑되어 단일 포인트 컬러 철학 구현
+   - Light mode: 순백(L=1.0) 배경에 딥블랙(L=0.15) 텍스트로 극대화된 대비
+   - Dark mode: 딥블랙(L=0.08) 배경에 순백에 가까운(L=0.96) 텍스트로 OLED 친화적 설계
+   - 의미색: success(녹색 H=150), warning(주황 H=45), destructive(빨강 H=15)는 최소한으로만 사용
+   - Muted/secondary 색상은 극도로 절제하여 주요 콘텐츠에 집중
+
+4. USAGE GUIDE:
+   - Layout: Sidebar navigation + Card-based note layout (Bento style)
+   - 사이드바는 --sidebar 토큰으로 미세하게 구분된 영역 (light: 약간 회색, dark: 약간 밝은 검정)
+   - 카드는 --card 토큰 사용, 미세한 border와 hover 시 subtle elevation
+   - 특수 효과: backdrop-blur 사용 금지 (순수 불투명 표면 유지), 대신 미세한 box-shadow로 깊이 표현
+   - 트랜지션: 모든 인터랙션에 200-300ms ease-out 적용 (Apple 스타일 부드러움)
+   - 포인트 컬러 사용처: 활성 탭, 선택된 노트, 주요 CTA 버튼, 링크, 핀 아이콘에만 제한적 사용
+   - Border radius: 0.75rem (12px) - macOS Big Sur 이후 스타일과 일치
+   - 검색, 필터 등 기능 UI는 --muted 배경에 --muted-foreground 텍스트로 차분하게 처리
+==========================================================================
+*/
+
+:root {
+  /* Typography */
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-mono: JetBrains Mono, 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+  
+  /* Radius */
+  --radius: 0.75rem;
+
+  /* Core UI Tokens */
+  --background: oklch(1.0 0 0);
+  --foreground: oklch(0.15 0 0);
+  --card: oklch(0.99 0 0);
+  --card-foreground: oklch(0.15 0 0);
+  --popover: oklch(1.0 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+  --primary: oklch(0.55 0.18 211);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.25 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.50 0 0);
+  --accent: oklch(0.55 0.18 211);
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.58 0.20 15);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.55 0.18 211);
+  
+  /* Chart Tokens */
+  --chart-1: oklch(0.55 0.18 211);
+  --chart-2: oklch(0.60 0.15 150);
+  --chart-3: oklch(0.65 0.16 280);
+  --chart-4: oklch(0.62 0.18 45);
+  --chart-5: oklch(0.58 0.14 330);
+  
+  /* Sidebar Tokens */
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.25 0 0);
+  --sidebar-primary: oklch(0.55 0.18 211);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.96 0 0);
+  --sidebar-accent-foreground: oklch(0.25 0 0);
+  --sidebar-border: oklch(0.94 0 0);
+  --sidebar-ring: oklch(0.55 0.18 211);
+}
+
+.dark {
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.11 0 0);
+  --card-foreground: oklch(0.96 0 0);
+  --popover: oklch(0.08 0 0);
+  --popover-foreground: oklch(0.96 0 0);
+  --primary: oklch(0.62 0.20 211);
+  --primary-foreground: oklch(0.08 0 0);
+  --secondary: oklch(0.15 0 0);
+  --secondary-foreground: oklch(0.88 0 0);
+  --muted: oklch(0.14 0 0);
+  --muted-foreground: oklch(0.60 0 0);
+  --accent: oklch(0.62 0.20 211);
+  --accent-foreground: oklch(0.08 0 0);
+  --destructive: oklch(0.62 0.22 15);
+  --destructive-foreground: oklch(0.96 0 0);
+  --border: oklch(0.18 0 0);
+  --input: oklch(0.18 0 0);
+  --ring: oklch(0.62 0.20 211);
+  
+  /* Chart Tokens */
+  --chart-1: oklch(0.62 0.20 211);
+  --chart-2: oklch(0.65 0.18 150);
+  --chart-3: oklch(0.68 0.18 280);
+  --chart-4: oklch(0.66 0.20 45);
+  --chart-5: oklch(0.64 0.16 330);
+  
+  /* Sidebar Tokens */
+  --sidebar: oklch(0.10 0 0);
+  --sidebar-foreground: oklch(0.88 0 0);
+  --sidebar-primary: oklch(0.62 0.20 211);
+  --sidebar-primary-foreground: oklch(0.08 0 0);
+  --sidebar-accent: oklch(0.15 0 0);
+  --sidebar-accent-foreground: oklch(0.88 0 0);
+  --sidebar-border: oklch(0.16 0 0);
+  --sidebar-ring: oklch(0.62 0.20 211);
+}
+
+@theme inline {
+  /* Shadcn Core Mapping */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Charts Mapping */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar Mapping */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Typography */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* Radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans min-h-screen;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  code, pre {
+    @apply font-mono;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-primary;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/40;
+  }
+}
+
+/* ─── Report Prose Styles ──────────────────────────────────────────────── */
+.prose-report h1 { font-size: 1.5rem; font-weight: 700; margin: 1.4em 0 0.5em; color: var(--foreground); }
+.prose-report h2 { font-size: 1.2rem; font-weight: 600; margin: 1.2em 0 0.4em; color: var(--foreground); }
+.prose-report h3 { font-size: 1.05rem; font-weight: 600; margin: 1em 0 0.35em; color: var(--foreground); }
+.prose-report h4, .prose-report h5, .prose-report h6 { font-size: 0.95rem; font-weight: 600; margin: 0.8em 0 0.3em; color: var(--foreground); }
+.prose-report p  { margin: 0.6em 0; color: var(--foreground); line-height: 1.85; }
+.prose-report ul { list-style: disc; padding-left: 1.4em; margin: 0.5em 0; }
+.prose-report li { margin: 0.3em 0; color: var(--foreground); line-height: 1.7; }
+.prose-report li.checked   { list-style: none; }
+.prose-report li.unchecked { list-style: none; }
+.prose-report strong { font-weight: 700; }
+.prose-report em     { font-style: italic; }
+.prose-report code   { font-family: var(--font-mono); font-size: 0.85em; background: var(--muted); padding: 0.15em 0.45em; border-radius: 4px; color: var(--foreground); }
+.prose-report blockquote { border-left: 3px solid var(--primary); padding-left: 1em; margin: 0.8em 0; color: var(--muted-foreground); font-style: italic; }
+.prose-report hr { border: none; border-top: 1px solid var(--border); margin: 1.5em 0; }
+
+/* ─── Print Styles ─────────────────────────────────────────────────────── */
+@media print {
+  /* Hide everything except print area */
+  body > #root { display: none !important; }
+  .print-only  { display: block !important; }
+
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 20mm 20mm 20mm 20mm;
+  }
+
+  /* Reset body */
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 11pt;
+    line-height: 1.8;
+  }
+
+  /* Report body overrides */
+  .report-body {
+    max-width: 100% !important;
+    width: 100% !important;
+    background: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    color: black !important;
+  }
+
+  /* Headings */
+  .prose-report h1 { font-size: 18pt; page-break-after: avoid; color: black !important; }
+  .prose-report h2 { font-size: 14pt; page-break-after: avoid; color: black !important; }
+  .prose-report h3 { font-size: 12pt; page-break-after: avoid; color: black !important; }
+  .prose-report p, .prose-report li { color: black !important; font-size: 11pt; }
+  .prose-report code { background: #f3f3f3 !important; color: black !important; }
+  .prose-report blockquote { border-color: #333 !important; color: #555 !important; }
+
+  /* Section breaks */
+  section { page-break-inside: avoid; }
+
+  /* Links */
+  a { color: black !important; text-decoration: underline; }
+}
