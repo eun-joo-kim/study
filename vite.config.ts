@@ -208,6 +208,7 @@ function cdnPrefixImages(): Plugin {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
+    base: '/study/memo/',
     server: {
       host: "::",
       port: 8080,

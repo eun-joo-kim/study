@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "VITE_ENABLE_ROUTE_MESSAGING=true vite",
     "build": "vite build",
+    "deploy": "npm run build",
     "build:dev": "VITE_ENABLE_ROUTE_MESSAGING=true vite build --mode development --sourcemap",
     "build:map": "VITE_ENABLE_ROUTE_MESSAGING=true vite build --sourcemap",
     "lint": "eslint .",
