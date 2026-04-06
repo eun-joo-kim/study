@@ -6,6 +6,9 @@ on:
       - main
       - master
 
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -20,8 +23,8 @@ jobs:
       - run: npm run build
       - run: |
           rm -rf deploy
-          mkdir -p deploy/study/memo
-          cp -R dist/* deploy/study/memo/
+          mkdir -p deploy/memo
+          cp -R dist/* deploy/memo/
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
